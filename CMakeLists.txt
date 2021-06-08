@@ -1,6 +1,20 @@
 cmake_minimum_required(VERSION 3.3)
 project(qxmpp VERSION 1.5.0)
 
+set(CMAKE_INSTALL_PREFIX "/usr")
+
+set(VERSION "1.5.0")
+# RPM
+set(CPACK_PACKAGE_VERSION ${VERSION})
+set(CPACK_GENERATOR "RPM")
+set(CPACK_PACKAGE_NAME "libqxmpp")
+set(CPACK_PACKAGE_RELEASE 1)
+set(CPACK_PACKAGE_CONTACT "qxmpp-project")
+set(CPACK_PACKAGE_VENDOR "qxmpp-project")
+set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
+include(CPack)
+
 set(SO_VERSION 3)
 
 # C++ standard settings:
@@ -10,18 +24,18 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules")
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Network Xml)
-find_package(Qt${QT_VERSION_MAJOR} 5.9.2 REQUIRED COMPONENTS Core Network Xml)
+find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core Network Xml)
+find_package(Qt${QT_VERSION_MAJOR} 5.6.2 REQUIRED COMPONENTS Core Network Xml)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 include(GNUInstallDirs)
 
-option(BUILD_TESTS "Build tests." ON)
+option(BUILD_TESTS "Build tests." OFF)
 option(BUILD_INTERNAL_TESTS "Build internal tests." OFF)
 option(BUILD_DOCUMENTATION "Build API documentation." OFF)
-option(BUILD_EXAMPLES "Build examples." ON)
+option(BUILD_EXAMPLES "Build examples." OFF)
 
 option(WITH_GSTREAMER "Build with GStreamer support for Jingle" OFF)
 

@@ -1197,7 +1197,8 @@ void QXmppTransferManager::_q_jobStateChanged(QXmppTransferJob::State state)
     }
 
     // the job was accepted by the local party
-    connect(job, QOverload<QXmppTransferJob::Error>::of(&QXmppTransferJob::error), this, &QXmppTransferManager::_q_jobError);
+    connect(job, SIGNAL(error(QXmppTransferJob::Error)), this, SLOT(_q_jobError(QXmppTransferJob::Error)));
+    //connect(job, QOverload<QXmppTransferJob::Error>::of(&QXmppTransferJob::error), this, &QXmppTransferManager::_q_jobError);
 
     QXmppDataForm form;
     form.setType(QXmppDataForm::Submit);
@@ -1327,7 +1328,8 @@ QXmppTransferJob *QXmppTransferManager::sendFile(const QString &jid, QIODevice *
     d->jobs.append(job);
 
     connect(job, &QObject::destroyed, this, &QXmppTransferManager::_q_jobDestroyed);
-    connect(job, QOverload<QXmppTransferJob::Error>::of(&QXmppTransferJob::error), this, &QXmppTransferManager::_q_jobError);
+    connect(job, SIGNAL(error(QXmppTransferJob::Error)), this, SLOT(_q_jobError(QXmppTransferJob::Error)));
+    //connect(job, QOverload<QXmppTransferJob::Error>::of(&QXmppTransferJob::error), this, &QXmppTransferManager::_q_jobError);
     connect(job, &QXmppTransferJob::finished, this, &QXmppTransferManager::_q_jobFinished);
 
     QXmppStreamInitiationIq request;

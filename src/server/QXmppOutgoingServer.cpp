@@ -69,7 +69,8 @@ QXmppOutgoingServer::QXmppOutgoingServer(const QString &domain, QObject *parent)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     connect(socket, &QSslSocket::errorOccurred, this, &QXmppOutgoingServer::socketError);
 #else
-    connect(socket, QOverload<QAbstractSocket::SocketError>::of(&QSslSocket::error), this, &QXmppOutgoingServer::socketError);
+    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
+    //connect(socket, QOverload<QAbstractSocket::SocketError>::of(&QSslSocket::error), this, &QXmppOutgoingServer::socketError);
 #endif
 
     // DNS lookups
@@ -83,7 +84,8 @@ QXmppOutgoingServer::QXmppOutgoingServer(const QString &domain, QObject *parent)
     d->localDomain = domain;
     d->ready = false;
 
-    connect(socket, QOverload<const QList<QSslError> &>::of(&QSslSocket::sslErrors), this, &QXmppOutgoingServer::slotSslErrors);
+    connect(socket, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(slotSslErrors(QList<QSslError>)));
+    //connect(socket, QOverload<const QList<QSslError> &>::of(&QSslSocket::sslErrors), this, &QXmppOutgoingServer::slotSslErrors);
 }
 
 /// Destroys the stream.
